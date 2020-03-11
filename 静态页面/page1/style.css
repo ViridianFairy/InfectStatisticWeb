@@ -13,35 +13,55 @@ html,body{
     width:381px;
 }
 
-#nav-bar div:nth-child(1){
-    height: 40px;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-box-pack: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 18px;
+#nav-bar{
+    height: 60px;
 }
 
-#nav-bar div:nth-child(2){
+#button img{
+    width: 12px;
+    height: 18px;
+    float: left;
+    margin: 10px;
+}
+
+#button div{
+    float: left;
+    height: 30px;
+    padding: 0;
+    margin: 7px 24px 10px -5px;
+}
+
+#line1{
+    clear: both;
     height: 7px;
     background-color: rgba(242, 242, 242, 1);
 }
+#title{
+    height: 50px;
+}
 
 #title div:nth-child(1){
+    float: left;
+    width: 5px;
+    height: 19px;
+    background-color: rgba(65, 107, 221, 1);
+    margin-bottom: 0px;
+    margin-top: 17px;
+    margin-left: 20px;
+}
+
+#title div:nth-child(2){
+    float: left;
     font-family: Arial, serif;
     font-weight:bold;
     font-size:19px;
     height: 40px;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-box-pack: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 18px;
+    margin: 13px 20px 0px 7px;
+
 }
 
-#title div:nth-child(2){
+#title div:nth-child(3){
+    clear: both;
     height: 2px;
     background-color: rgba(242, 242, 242, 1);
 }
@@ -54,7 +74,7 @@ html,body{
    width:366px;
 }
 #wrap2 .query{
-   margin: 10px 0;
+   margin: 8px 0;
    /* width: 100%; */
    height: 112px;
    border-radius: 5px;
