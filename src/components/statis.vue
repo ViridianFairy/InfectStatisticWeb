@@ -1,97 +1,97 @@
 <template>
   <div class="hello">
     <!-- <transition name="init" mode="out-in"> -->
-      <div id="data" v-if="router==0">
-        <div style="margin:12px 0 16px 20px;font-size: 12px;color:#aaa">截至 2020-03-11 20：20 全国数据统计</div>
-        <div id="data-huge">
-          <div class="data-big">
-            <div class="data-small">
-              <div>较昨日{{allNum.curInj[1]>0?'+':''}}{{allNum.curInj[1]}}</div>
-              <div style="color:#C80017">{{allNum.curInj[0]}}</div>
-              <div>现存确诊</div>
-            </div>
-            <div class="data-small">
-              <div>较昨日{{allNum.sus[1]>0?'+':''}}{{allNum.sus[1]}}</div>
-              <div style="color:#B8741A">{{allNum.sus[0]}}</div>
-              <div>现存疑似</div>
-            </div>
-            <div class="data-small">
-              <div>较昨日{{allNum.bad[1]>0?'+':''}}{{allNum.bad[1]}}</div>
-              <div style="color:#7B4D12">{{allNum.bad[0]}}</div>
-              <div>现存重症</div>
-            </div>
+    <div id="data" v-if="router==0">
+      <div style="margin:12px 0 16px 20px;font-size: 12px;color:#aaa">截至 2020-03-11 20：20 全国数据统计</div>
+      <div id="data-huge">
+        <div class="data-big">
+          <div class="data-small">
+            <div>较昨日{{allNum.curInj[1]>0?'+':''}}{{allNum.curInj[1]}}</div>
+            <div style="color:#C80017">{{allNum.curInj[0]}}</div>
+            <div>现存确诊</div>
           </div>
-          <div class="data-big" style="margin-top: 18px;">
-            <div class="data-small">
-              <div>较昨日{{allNum.inj[1]>0?'+':''}}{{allNum.inj[1]}}</div>
-              <div style="color:#A30014">{{allNum.inj[0]}}</div>
-              <div>累计确诊</div>
-            </div>
-            <div class="data-small">
-              <div>较昨日{{allNum.dead[1]>0?'+':''}}{{allNum.dead[1]}}</div>
-              <div style="color:#015487">{{allNum.dead[0]}}</div>
-              <div>累计死亡</div>
-            </div>
-            <div class="data-small">
-              <div>较昨日{{allNum.cur[1]>0?'+':''}}{{allNum.cur[1]}}</div>
-              <div style="color:#4B8502">{{allNum.cur[0]}}</div>
-              <div>累计治愈</div>
-            </div>
+          <div class="data-small">
+            <div>较昨日{{allNum.sus[1]>0?'+':''}}{{allNum.sus[1]}}</div>
+            <div style="color:#B8741A">{{allNum.sus[0]}}</div>
+            <div>现存疑似</div>
+          </div>
+          <div class="data-small">
+            <div>较昨日{{allNum.bad[1]>0?'+':''}}{{allNum.bad[1]}}</div>
+            <div style="color:#7B4D12">{{allNum.bad[0]}}</div>
+            <div>现存重症</div>
           </div>
         </div>
-        <div id="button-wrapper">
-          <div class="b-left">现存确诊</div>
-          <div class="b-right">累计确诊</div>
+        <div class="data-big" style="margin-top: 18px;">
+          <div class="data-small">
+            <div>较昨日{{allNum.inj[1]>0?'+':''}}{{allNum.inj[1]}}</div>
+            <div style="color:#A30014">{{allNum.inj[0]}}</div>
+            <div>累计确诊</div>
+          </div>
+          <div class="data-small">
+            <div>较昨日{{allNum.dead[1]>0?'+':''}}{{allNum.dead[1]}}</div>
+            <div style="color:#015487">{{allNum.dead[0]}}</div>
+            <div>累计死亡</div>
+          </div>
+          <div class="data-small">
+            <div>较昨日{{allNum.cur[1]>0?'+':''}}{{allNum.cur[1]}}</div>
+            <div style="color:#4B8502">{{allNum.cur[0]}}</div>
+            <div>累计治愈</div>
+          </div>
         </div>
       </div>
+      <div id="button-wrapper">
+        <div class="b-left">现存确诊</div>
+        <div class="b-right">累计确诊</div>
+      </div>
+    </div>
     <!-- </transition> -->
     <!-- <transition name="init"> -->
-      <div id="data2" v-if="router==1">
-        <div style="margin:12px 0 16px 20px;font-size: 12px;color:#aaa">截至 2020-02-23 20：20 全国数据统计</div>
-        <div id="data-huge">
-          <div class="data-big">
-            <div class="data-small">
-              <div>较昨日-1944</div>
-              <div style="color:#C80017">51428</div>
-              <div>现存确诊</div>
-            </div>
-            <div class="data-small">
-              <div>较昨日+944</div>
-              <div style="color:#A30014">64084</div>
-              <div>累计确诊</div>
-            </div>
-            <div class="data-small">
-              <div>较昨日+87</div>
-              <div style="color:#015487">2346</div>
-              <div>累计死亡</div>
-            </div>
-            <div class="data-small">
-              <div>较昨日+512</div>
-              <div style="color:#4B8502">15343</div>
-              <div>累计治愈</div>
-            </div>
+    <div id="data2" v-if="router==1">
+      <div style="margin:12px 0 16px 20px;font-size: 12px;color:#aaa">截至 2020-03-11 20：20 全国数据统计</div>
+      <div id="data-huge">
+        <div class="data-big">
+          <div class="data-small">
+            <div>较昨日{{provNum.curInj[1]>0?'+':''}}{{provNum.curInj[1]}}</div>
+            <div style="color:#C80017">{{provNum.curInj[0]}}</div>
+            <div>现存确诊</div>
+          </div>
+          <div class="data-small">
+            <div>较昨日{{provNum.inj[1]>0?'+':''}}{{provNum.inj[1]}}</div>
+            <div style="color:#A30014">{{provNum.inj[0]}}</div>
+            <div>累计确诊</div>
+          </div>
+          <div class="data-small">
+            <div>较昨日{{provNum.dead[1]>0?'+':''}}{{provNum.dead[1]}}</div>
+            <div style="color:#015487">{{provNum.dead[0]}}</div>
+            <div>累计死亡</div>
+          </div>
+          <div class="data-small">
+            <div>较昨日{{provNum.cur[1]>0?'+':''}}{{provNum.cur[1]}}</div>
+            <div style="color:#4B8502">{{provNum.cur[0]}}</div>
+            <div>累计治愈</div>
           </div>
         </div>
-        <div id="button-wrapper2">
-          <div class>
-            现存
-            <br />确诊趋势
-          </div>
-          <div class>
-            累计
-            <br />确诊趋势
-          </div>
-          <div class>
-            累计
-            <br />治愈趋势
-          </div>
-          <div class>
-            累计
-            <br />死亡趋势
-          </div>
-        </div>
-        <div class="aaa">最新消息：山东任城监狱一日新增200例新冠..</div>
       </div>
+      <div id="button-wrapper2">
+        <div :style="{'background-color':typeIndex==0?'#DB726A':''}">
+          现存
+          <br />确诊趋势
+        </div>
+        <div class>
+          累计
+          <br />确诊趋势
+        </div>
+        <div class>
+          累计
+          <br />治愈趋势
+        </div>
+        <div class>
+          累计
+          <br />死亡趋势
+        </div>
+      </div>
+      <div class="aaa">最新消息：山东任城监狱一日新增200例新冠..</div>
+    </div>
     <!-- </transition> -->
     <div id="load-wrapper">
       <div class="load">
@@ -125,7 +125,7 @@ export default {
   },
   methods: {
     initAll() {
-       this.showDialog = false;
+      this.showDialog = false;
       if (this.myChart) this.myChart.dispose();
       //if (this.dataList[0].value == -1) {
       $ajax.get(baseURL + "/api/ncov/getAll").then(doc => {
@@ -138,24 +138,25 @@ export default {
             }
           });
         });
-        if(this.allNum.inj[0] == 0){
-            Object.keys(this.allNum).forEach((name)=>{
-            console.log(name)
-            var Time = 30,t = 0;
-            var piece = (arr.statis[name][0]/Time).toFixed(2)
-            var piece2 = (arr.statis[name][1]/Time).toFixed(2)
-            var timer = setInterval(()=>{
-               this.$set(this.allNum[name],0,parseInt(piece*(++t)))
-               this.$set(this.allNum[name],1,parseInt(piece2*(++t)))
-               if(t==Time){
-                  this.allNum[name][0] = arr.statis[name][0]
-                  this.allNum[name][1] = arr.statis[name][1]
-                  clearInterval(timer)
-               }
-            },16.6)
-         })
+        if (this.allNum.inj[0] == 0) {
+          Object.keys(this.allNum).forEach(name => {
+            console.log(name);
+            var Time = 30,
+              t = 0;
+            var piece = (arr.statis[name][0] / Time).toFixed(2);
+            var piece2 = (arr.statis[name][1] / Time).toFixed(2);
+            var timer = setInterval(() => {
+              this.$set(this.allNum[name], 0, parseInt(piece * ++t));
+              this.$set(this.allNum[name], 1, parseInt(piece2 * ++t));
+              if (t == Time) {
+                this.allNum[name][0] = arr.statis[name][0];
+                this.allNum[name][1] = arr.statis[name][1];
+                clearInterval(timer);
+              }
+            }, 16.6);
+          });
         }
-         
+
         //var myChart = this.myChart;
         this.myChart = echarts.init(document.getElementById("main"));
         this.myChart.setOption(option);
@@ -182,6 +183,7 @@ export default {
               var dom = document.querySelector(".jump");
               dom.onclick = function() {
                 self.router = 1;
+                self.showDialog = false;
                 self.initProv(dom.name);
               };
             });
@@ -256,10 +258,17 @@ export default {
       };
     },
     initProv(query, info) {
-      this.showDialog = false;
+      this.provNum = {
+        curInj: [0, 0],
+        inj: [0, 0],
+        cur: [0, 0],
+        dead: [0, 0]
+      };
+      this.dataList2 = []
       if (!info) info = "inj";
       this.$emit("toProv", { name: query });
       var dataTime = [];
+      this.myChart.clear()
       this.myChart.dispose();
       $ajax.post(baseURL + "/api/ncov/getProv", { name: query }).then(doc => {
         var arr = JSON.parse(doc.data.data);
@@ -272,6 +281,7 @@ export default {
           this.dataList2.unshift(v[info]);
         });
         this.myChart = echarts.init(document.getElementById("main"));
+        this.myChart.clear()
         this.myChart.setOption({
           xAxis: {
             type: "category",
@@ -280,7 +290,7 @@ export default {
           },
           yAxis: {
             type: "value",
-            name: query
+            name: query + this.typeText[info],
           },
           series: [
             {
@@ -328,8 +338,28 @@ export default {
               return '<div class="showBox">' + listItem + "</div>";
             }
           }
-        });
+        },true);
         this.showDialog = true;
+
+        Object.keys(this.provNum).forEach(name => {
+          var today = arr[0][name];
+          var yesto = arr[1][name];
+          arr[name] = [today, today-yesto];
+          console.log(name);
+          var Time = 30,
+            t = 0;
+          var piece = (arr[name][0] / Time).toFixed(2);
+          var piece2 = (arr[name][1] / Time).toFixed(2);
+          var timer = setInterval(() => {
+            this.$set(this.provNum[name], 0, parseInt(piece * ++t));
+            this.$set(this.provNum[name], 1, parseInt(piece2 * ++t));
+            if (t == Time) {
+              this.provNum[name][0] = arr[name][0];
+              this.provNum[name][1] = arr[name][1];
+              clearInterval(timer);
+            }
+          }, 16.6);
+        });
         this.myChart.dispatchAction({
           type: "showTip",
           seriesIndex: 1 // 显示第几个series
@@ -349,6 +379,13 @@ export default {
       dataList2: [],
       query: "山东",
       showDialog: false,
+      typeText:{
+         'curInj':'现存确诊',
+         'inj':'累计确诊',
+         'cur':'累计治愈',
+         'dead':'累计死亡',
+      },
+      typeIndex:0,
       allNum: {
         curInj: [0, 0],
         inj: [0, 0],
@@ -356,6 +393,13 @@ export default {
         cur: [0, 0],
         dead: [0, 0],
         bad: [0, 0]
+      },
+      provNum: {
+        curInj: [0, 0],
+        inj: [0, 0],
+        //   sus: [0, 0],
+        cur: [0, 0],
+        dead: [0, 0]
       },
       dataList: [
         { name: "南海诸岛", nameFull: "南海诸岛", value: -1 },
@@ -464,6 +508,11 @@ body {
   border-radius: 4px;
   width: 18%;
   font-weight: bold;
+  transition: 0.2s all;
+}
+#button-wrapper2 div:hover {
+  cursor: pointer;
+  background-color: #db726a;
 }
 .b-left {
   width: 50%;
@@ -494,7 +543,7 @@ body {
   justify-content: space-around;
 }
 .data-small {
-   width:75px;
+  width: 75px;
   text-align: center;
 }
 .data-small div:nth-child(1) {
@@ -604,10 +653,10 @@ a:hover {
   }
 }
 .init-enter-active {
-  transition: all 5.2s;
+  transition: all 0.5s;
 }
 .init-leave-active {
-  transition: all 5.2s;
+  transition: all 0.5s;
 }
 .init-enter,
 .init-leave-to {

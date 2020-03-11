@@ -60,14 +60,5 @@ body {
   cursor: pointer;
   color: #c7e8ff;
 }
-.init-enter-active {
-  transition: all 0.2s;
-}
-.init-leave-active {
-  transition: all 0.2s;
-}
-.init-enter,
-.init-leave {
-  opacity: 0;
-}
+
 </style>
