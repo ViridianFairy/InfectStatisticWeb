@@ -1,15 +1,16 @@
 <template>
   <div id="wrap1">
     <div id="nav-bar">
-      <div id="button">
+      <div id="button" :style={opacity:router} @click="$emit('toAll')">
         <img src="../assets/arrow.svg" />
         <div>返回</div>
       </div>
-      <div id="line1"></div>
+      <div id="banner" :style="{'padding-left':getPL}">疫情实时动态</div>
     </div>
+    <div id="line1"></div>
     <div id="title">
       <div></div>
-      <div>新冠肺炎患者同程查询</div>
+      <div>{{banner}}</div>
       <div id="line2"></div>
     </div>
   </div>
@@ -19,7 +20,14 @@
 export default {
   name: "navi",
   props: {
-    broad: String
+    broad: String,
+    banner: String,
+    router:Number,
+  },
+  computed:{
+     getPL(){
+        return (parseInt(this.broad)/2 -150)+'px'
+     }
   }
 };
 </script>
@@ -41,10 +49,14 @@ body {
 }
 
 #nav-bar {
+  display: flex;
   height: 46px;
 }
-#button{
-   padding-top: 3px;
+#button {
+  width: 100px;
+  height: 50px;
+  clear: both;
+  padding-top: 3px;
 }
 #button img {
   width: 12px;
@@ -52,19 +64,30 @@ body {
   float: left;
   margin: 10px;
 }
-#button:hover{
-   filter: brightness(1.4);
-   color:rgb(43, 58, 133);
-   cursor: pointer;
-   transition: 0.15s all;
+#button :hover {
+  filter: brightness(1.4);
+  color: rgb(43, 58, 133);
+  cursor: pointer;
+  transition: 0.15s all;
 }
+/* #banner:hover{
+  filter: brightness(1.4);
+  color: rgb(43, 58, 133);
+  cursor: pointer;
+  transition: 0.15s all;
+} */
 #button div {
   float: left;
   height: 30px;
   padding: 0;
   margin: 7px 24px 3px -5px;
 }
-
+#banner {
+  width: auto;
+  text-align: center;
+  padding-top: 11px;
+  transform: translateX(0);
+}
 #line1 {
   clear: both;
   height: 7px;

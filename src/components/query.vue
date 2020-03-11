@@ -34,7 +34,8 @@
 export default {
   name: "query",
   props: {
-    broad: String
+    broad: String,
+    
   }
 };
 </script>

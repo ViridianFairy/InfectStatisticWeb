@@ -1,94 +1,98 @@
 <template>
   <div class="hello">
-    <div id="data" v-if="!more">
-      <div style="margin:12px 0 16px 20px;font-size: 12px;color:#aaa">截至 2020-02-23 20：20 全国数据统计</div>
-      <div id="data-huge">
-        <div class="data-big">
-          <div class="data-small">
-            <div>较昨日-1944</div>
-            <div style="color:#C80017">51428</div>
-            <div>现存确诊</div>
+    <transition name="init">
+      <div id="data" v-show="router==0">
+        <div style="margin:12px 0 16px 20px;font-size: 12px;color:#aaa">截至 2020-03-11 20：20 全国数据统计</div>
+        <div id="data-huge">
+          <div class="data-big">
+            <div class="data-small">
+              <div>较昨日{{allNum.curInj[1]>0?'+':''}}{{allNum.curInj[1]}}</div>
+              <div style="color:#C80017">{{allNum.curInj[0]}}</div>
+              <div>现存确诊</div>
+            </div>
+            <div class="data-small">
+              <div>较昨日{{allNum.sus[1]>0?'+':''}}{{allNum.sus[1]}}</div>
+              <div style="color:#B8741A">{{allNum.sus[0]}}</div>
+              <div>现存疑似</div>
+            </div>
+            <div class="data-small">
+              <div>较昨日{{allNum.bad[1]>0?'+':''}}{{allNum.bad[1]}}</div>
+              <div style="color:#7B4D12">{{allNum.bad[0]}}</div>
+              <div>现存重症</div>
+            </div>
           </div>
-          <div class="data-small">
-            <div>较昨日+882</div>
-            <div style="color:#B8741A">4148</div>
-            <div>现存疑似</div>
-          </div>
-          <div class="data-small">
-            <div>较昨日-789</div>
-            <div style="color:#7B4D12">10968</div>
-            <div>现存重症</div>
+          <div class="data-big" style="margin-top: 18px;">
+            <div class="data-small">
+              <div>较昨日{{allNum.inj[1]>0?'+':''}}{{allNum.inj[1]}}</div>
+              <div style="color:#A30014">{{allNum.inj[0]}}</div>
+              <div>累计确诊</div>
+            </div>
+            <div class="data-small">
+              <div>较昨日{{allNum.dead[1]>0?'+':''}}{{allNum.dead[1]}}</div>
+              <div style="color:#015487">{{allNum.dead[0]}}</div>
+              <div>累计死亡</div>
+            </div>
+            <div class="data-small">
+              <div>较昨日{{allNum.cur[1]>0?'+':''}}{{allNum.cur[1]}}</div>
+              <div style="color:#4B8502">{{allNum.cur[0]}}</div>
+              <div>累计治愈</div>
+            </div>
           </div>
         </div>
-        <div class="data-big" style="margin-top: 18px;">
-          <div class="data-small">
-            <div>较昨日+1656</div>
-            <div style="color:#A30014">77048</div>
-            <div>累计确诊</div>
-          </div>
-          <div class="data-small">
-            <div>较昨日+197</div>
-            <div style="color:#015487">2445</div>
-            <div>累计死亡</div>
-          </div>
-          <div class="data-small">
-            <div>较昨日+250</div>
-            <div style="color:#4B8502">23175</div>
-            <div>累计治愈</div>
-          </div>
-        </div>
-      </div>
-      <div id="button-wrapper">
-        <div class="b-left">现存确诊</div>
-        <div class="b-right">累计确诊</div>
-      </div>
-    </div>
-    <div id="data2" v-if="more">
-      <div style="margin:12px 0 16px 20px;font-size: 12px;color:#aaa">截至 2020-02-23 20：20 全国数据统计</div>
-      <div id="data-huge">
-        <div class="data-big">
-          <div class="data-small">
-            <div>较昨日-1944</div>
-            <div style="color:#C80017">51428</div>
-            <div>现存确诊</div>
-          </div>
-          <div class="data-small">
-            <div>较昨日+944</div>
-            <div style="color:#A30014">64084</div>
-            <div>累计确诊</div>
-          </div>
-          <div class="data-small">
-            <div>较昨日+87</div>
-            <div style="color:#015487">2346</div>
-            <div>累计死亡</div>
-          </div>
-          <div class="data-small">
-            <div>较昨日+512</div>
-            <div style="color:#4B8502">15343</div>
-            <div>累计治愈</div>
-          </div>
+        <div id="button-wrapper">
+          <div class="b-left">现存确诊</div>
+          <div class="b-right">累计确诊</div>
         </div>
       </div>
-      <div id="button-wrapper2">
-        <div class>
-          现存
-          <br />确诊趋势
+    </transition>
+    <transition name="init">
+      <div id="data2" v-show="router==1">
+        <div style="margin:12px 0 16px 20px;font-size: 12px;color:#aaa">截至 2020-02-23 20：20 全国数据统计</div>
+        <div id="data-huge">
+          <div class="data-big">
+            <div class="data-small">
+              <div>较昨日-1944</div>
+              <div style="color:#C80017">51428</div>
+              <div>现存确诊</div>
+            </div>
+            <div class="data-small">
+              <div>较昨日+944</div>
+              <div style="color:#A30014">64084</div>
+              <div>累计确诊</div>
+            </div>
+            <div class="data-small">
+              <div>较昨日+87</div>
+              <div style="color:#015487">2346</div>
+              <div>累计死亡</div>
+            </div>
+            <div class="data-small">
+              <div>较昨日+512</div>
+              <div style="color:#4B8502">15343</div>
+              <div>累计治愈</div>
+            </div>
+          </div>
         </div>
-        <div class>
-          累计
-          <br />确诊趋势
+        <div id="button-wrapper2">
+          <div class>
+            现存
+            <br />确诊趋势
+          </div>
+          <div class>
+            累计
+            <br />确诊趋势
+          </div>
+          <div class>
+            累计
+            <br />治愈趋势
+          </div>
+          <div class>
+            累计
+            <br />死亡趋势
+          </div>
         </div>
-        <div class>
-          累计
-          <br />治愈趋势
-        </div>
-        <div class>
-          累计
-          <br />死亡趋势
-        </div>
+        <div class="aaa">最新消息：山东任城监狱一日新增200例新冠..</div>
       </div>
-      <div class="aaa">最新消息：山东任城监狱一日新增200例新冠..</div>
-    </div>
+    </transition>
     <div id="load-wrapper">
       <div class="load">
         <div class="line"></div>
@@ -96,11 +100,15 @@
         <div class="line"></div>
       </div>
     </div>
-    <div id="main" :style="{width:broad}"></div>
+    <transition name="init">
+      <div id="main" :style="{width:broad}" v-show="showDialog"></div>
+    </transition>
   </div>
 </template>
 
 <script>
+// var baseURL = "http://106.15.200.151:3011"
+var baseURL = "http://127.0.0.1:3011";
 import "echarts/map/js/china";
 import $ajax from "axios";
 var echarts = require("echarts/lib/echarts");
@@ -112,23 +120,46 @@ require("echarts/lib/component/geo");
 export default {
   name: "statis",
   props: {
-    broad: String
+    broad: String,
+    router: Number
   },
   methods: {
     initAll() {
-      $ajax.get("https://lab.isaaclin.cn/nCoV/api/area").then(doc => {
-        doc.data.results.forEach(v => {
+       this.showDialog = false;
+      if (this.myChart) this.myChart.dispose();
+      //if (this.dataList[0].value == -1) {
+      $ajax.get(baseURL + "/api/ncov/getAll").then(doc => {
+        var arr = JSON.parse(doc.data.data);
+        console.log(arr);
+        arr.data.forEach(v => {
           this.dataList.forEach((l, i) => {
             if (l.name == v.provinceShortName) {
-              //l.value = v.confirmedCount;
-              //console.log(this.dataList[i]);
               this.$set(this.dataList[i], "value", v.confirmedCount);
             }
           });
         });
+        if(this.allNum.inj[0] == 0){
+            Object.keys(this.allNum).forEach((name)=>{
+            console.log(name)
+            var Time = 30,t = 0;
+            var piece = (arr.statis[name][0]/Time).toFixed(2)
+            var piece2 = (arr.statis[name][1]/Time).toFixed(2)
+            var timer = setInterval(()=>{
+               this.$set(this.allNum[name],0,parseInt(piece*(++t)))
+               this.$set(this.allNum[name],1,parseInt(piece2*(++t)))
+               if(t==Time){
+                  this.allNum[name][0] = arr.statis[name][0]
+                  this.allNum[name][1] = arr.statis[name][1]
+                  clearInterval(timer)
+               }
+            },16.6)
+         })
+        }
+         
         //var myChart = this.myChart;
         this.myChart = echarts.init(document.getElementById("main"));
         this.myChart.setOption(option);
+        this.showDialog = true;
         this.myChart.on("mouseover", () => {
           this.myChart.dispatchAction({
             type: "downplay",
@@ -136,6 +167,7 @@ export default {
           });
         });
       });
+      //}
       var self = this;
       var option = {
         tooltip: {
@@ -149,6 +181,7 @@ export default {
             self.$nextTick(() => {
               var dom = document.querySelector(".jump");
               dom.onclick = function() {
+                self.router = 1;
                 self.initProv(dom.name);
               };
             });
@@ -222,88 +255,86 @@ export default {
         ]
       };
     },
-    initProv(query) {
-      this.$emit("toProv");
-      this.more = true;
-      var dataTime = []
+    initProv(query, info) {
+      this.showDialog = false;
+      if (!info) info = "inj";
+      this.$emit("toProv", { name: query });
+      var dataTime = [];
       this.myChart.dispose();
-      var Full = this.getFullName(query)
-      $ajax
-        .get(`https://lab.isaaclin.cn/nCoV/api/area?latest=0&province=${Full}`)
-        .then(doc => {
-           console.log(`https://lab.isaaclin.cn/nCoV/api/area?
-          latest=0&province=${Full}`)
-          doc.data.results.forEach(v => {
-             
-            let t = new Date(v.updateTime);
-            let time = `${t.getMonth() + 1}月${t.getDate()}日`;
-            if (dataTime.includes(time)) return;
-            dataTime.unshift(time);
-            this.dataList2.unshift(v.confirmedCount);
-          });
-          this.myChart = echarts.init(document.getElementById("main"));
-          this.myChart.setOption({
-            xAxis: {
-              type: "category",
-              data: dataTime,
-              name: "时间"
-            },
-            yAxis: {
-              type: "value",
-              name: query
-            },
-            series: [
-              {
-                data: this.dataList2,
-                type: "line",
-                smooth: true,
-                name: "确诊人数",
-                lineStyle: {
-                  normal: {
-                    color: "#FC744F",
-                    width: 4
-                  }
+      $ajax.post(baseURL + "/api/ncov/getProv", { name: query }).then(doc => {
+        var arr = JSON.parse(doc.data.data);
+        console.log(arr);
+        arr.forEach(v => {
+          let t = new Date(v.updateTime);
+          let time = `${t.getMonth() + 1}月${t.getDate()}日`;
+          if (dataTime.includes(time)) return;
+          dataTime.unshift(time);
+          this.dataList2.unshift(v[info]);
+        });
+        this.myChart = echarts.init(document.getElementById("main"));
+        this.myChart.setOption({
+          xAxis: {
+            type: "category",
+            data: dataTime,
+            name: "时间"
+          },
+          yAxis: {
+            type: "value",
+            name: query
+          },
+          series: [
+            {
+              data: this.dataList2,
+              type: "line",
+              smooth: true,
+              name: "确诊人数",
+              lineStyle: {
+                normal: {
+                  color: "#FC744F",
+                  width: 4
                 }
-              }
-            ],
-            tooltip: {
-              //鼠标悬停提示内容
-              trigger: "axis", // 触发类型，默认数据触发，可选为：'axis' item
-              axisPointer: {
-                // 坐标轴指示器，坐标轴触发有效
-                type: "line", // 默认为直线，可选为：'line' | 'shadow'
-                label: "cross",
-                show: true
-              },
-              formatter: function(a) {
-                //console.log(a)
-                let list = [];
-                let listItem = "";
-                for (var i = 0; i < a.length; i++) {
-                  list.push(
-                    '<i style="display: inline-block;width: 10px;height: 10px;background: ' +
-                      a[i].color +
-                      ';margin-right: 5px;border-radius: 50%;}"></i><span style="width:auto; display:inline-block;">' +
-                      "截至" +
-                      a[i].name +
-                      "，<br>" +
-                      "累计" +
-                      a[i].seriesName +
-                      "：" +
-                      a[i].value +
-                      "&nbsp"
-                  );
-                }
-                listItem = list.join("<br>");
-                return '<div class="showBox">' + listItem + "</div>";
               }
             }
-          });
-          this.myChart.dispatchAction({
-            type: "showTip",
-            seriesIndex: 1 // 显示第几个series
-          });
+          ],
+          tooltip: {
+            //鼠标悬停提示内容
+            trigger: "axis", // 触发类型，默认数据触发，可选为：'axis' item
+            axisPointer: {
+              // 坐标轴指示器，坐标轴触发有效
+              type: "line", // 默认为直线，可选为：'line' | 'shadow'
+              label: "cross",
+              show: true
+            },
+            formatter: function(a) {
+              //console.log(a)
+              let list = [];
+              let listItem = "";
+              for (var i = 0; i < a.length; i++) {
+                list.push(
+                  '<i style="display: inline-block;width: 10px;height: 10px;background: ' +
+                    a[i].color +
+                    ';margin-right: 5px;border-radius: 50%;}"></i><span style="width:auto; display:inline-block;">' +
+                    "截至" +
+                    a[i].name +
+                    "，<br>" +
+                    "累计" +
+                    a[i].seriesName +
+                    "：" +
+                    a[i].value +
+                    "&nbsp"
+                );
+              }
+              listItem = list.join("<br>");
+              return '<div class="showBox">' + listItem + "</div>";
+            }
+          }
         });
+        this.showDialog = true;
+        this.myChart.dispatchAction({
+          type: "showTip",
+          seriesIndex: 1 // 显示第几个series
+        });
+      });
     },
     getFullName(name) {
       var obj = this.dataList.find(val => {
@@ -315,9 +346,17 @@ export default {
   data() {
     return {
       myChart: null,
-      more: false,
       dataList2: [],
       query: "山东",
+      showDialog: false,
+      allNum: {
+        curInj: [0, 0],
+        inj: [0, 0],
+        sus: [0, 0],
+        cur: [0, 0],
+        dead: [0, 0],
+        bad: [0, 0]
+      },
       dataList: [
         { name: "南海诸岛", nameFull: "南海诸岛", value: -1 },
         { name: "北京", nameFull: "北京市", value: -1 },
@@ -359,6 +398,12 @@ export default {
   },
   mounted() {
     this.initAll();
+  },
+  watch: {
+    router(newVal) {
+      if (newVal == 0) this.initAll();
+      //if(newVal==1) this.initProv()
+    }
   }
 };
 </script>
@@ -421,17 +466,17 @@ body {
   font-weight: bold;
 }
 .b-left {
-  width:50%;
+  width: 50%;
   color: #ff756b;
   background-color: #f2f2f2;
   text-align: center;
 }
-#button-wrapper div:hover{
-   filter: brightness(1.1);
-   cursor: pointer;
+#button-wrapper div:hover {
+  filter: brightness(1.1);
+  cursor: pointer;
 }
 .b-right {
-  width:50%;
+  width: 50%;
   color: rgb(238, 238, 238);
   background-color: #ff756b;
   text-align: center;
@@ -449,6 +494,7 @@ body {
   justify-content: space-around;
 }
 .data-small {
+   width:75px;
   text-align: center;
 }
 .data-small div:nth-child(1) {
@@ -556,5 +602,15 @@ a:hover {
   100% {
     transform: translate(0, 0);
   }
+}
+.init-enter-active {
+  transition: all 0.2s;
+}
+.init-leave-active {
+  transition: all 0.2s;
+}
+.init-enter,
+.init-leave {
+  opacity: 0;
 }
 </style>
