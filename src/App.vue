@@ -1,198 +1,64 @@
 <template>
-  <div id="app">
-    
+  <div id="app" :style="{width:broad}">
+    <navi :broad="broad" :banner="banner" :router="router" @toAll="toAllOn"></navi>
+    <statis v-if="router==0 || router==1" :router="router" :broad="broad" @toProv="toProvOn"></statis>
+    <query v-if="router==2" :broad="broad"></query>
   </div>
 </template>
 
 <script>
+import query from "./components/query";
+import navi from "./components/navi";
+import statis from "./components/statis";
 export default {
-   
   name: "App",
   components: {
-    
+    statis,
+    query,
+    navi
+  },
+  computed: {
+    getBanner() {
+      return this.bannerStr[this.router];
+    }
+  },
+  data() {
+    return {
+      router: 0,
+      broad: "681px",
+      bannerStr: ["全国实时数据", "实时数据"],
+      banner: ""
+    };
+  },
+  mounted() {
+    this.banner = this.getBanner;
+  },
+  methods: {
+    toProvOn(data) {
+      this.router = 1;
+      this.banner = data.name + this.getBanner;
+    },
+    toAllOn(data) {
+      this.router = 0;
+      this.banner = this.getBanner;
+    }
   }
 };
 </script>
 
 <style>
+#app {
+  width: auto;
+  height: 710px;
+  background-color: rgba(185, 185, 185, 0.118);
+}
 body {
   margin: 0;
   font-family: Microsoft YaHei, Arial;
 }
-#main,
-#load-wrapper,
-#extra-wrapper {
-  width: 366px;
-  height: calc(294px);
-}
-#data,
-#data2 {
-  width: 366px;
-  height: 277px;
-  font-size: 14px;
-  overflow: hidden;
-}
-#main {
-  opacity: 0;
-  transition: 0.4s all;
-}
-#button-wrapper {
-  display: flex;
-  width: 80%;
-  margin: 0 auto;
-  font-weight: bold;
-  font-size: 16px;
-  margin-top: 26px;
-}
-#button-wrapper2 {
-  display: flex;
-  width: 88%;
-  margin: 0 auto;
-  font-size: 15px;
-  margin-top: 26px;
-  text-align: center;
-}
-#button-wrapper div {
-  padding: 6px 40px;
-}
-.aaa {
-  color: #aaa;
-  margin: 14px 0 0 25px;
-}
-#button-wrapper2 div {
-  line-height: 24px;
-  color: white;
-  background-color: #ff756b;
-  margin: 0 4px;
-  padding: 4px 6px;
-  border-radius: 4px;
-}
-.b-left {
-  color: #ff756b;
-  background-color: #f2f2f2;
-}
-.b-right {
-  color: rgb(238, 238, 238);
-  background-color: #ff756b;
-}
-#data-huge {
-  padding: 15px 4px;
-  border-radius: 10px;
-  margin: 0 auto;
-  width: 90%;
-  box-shadow: 3px 3px 7px rgba(170, 170, 170, 0.34);
-}
-.data-big {
-  display: flex;
-  justify-content: space-around;
-}
-.data-small {
-  text-align: center;
-}
-.data-small div:nth-child(1) {
-  font-size: 12px;
-  height: 18px;
-}
-.data-small div:nth-child(2) {
-  font-size: 18px;
-  height: 22px;
-  font-weight: bold;
-}
-.data-small div:nth-child(3) {
-  font-size: 12px;
-  font-weight: bold;
-}
-#load-wrapper {
-  position: absolute;
-}
-#extra-wrapper {
-  position: absolute;
-}
-#extra-wrapper:hover {
-  cursor: pointer;
-  position: absolute;
-}
-#extra {
-  z-index: 10;
-  width: auto;
-  height: auto;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 12px;
-  background: #a0a0a0;
-  font-size: 14px;
-  padding: 6px 11px;
-  color: white;
-  border-radius: 6px;
-}
-a:hover {
+.jump:hover {
   cursor: pointer;
   color: #c7e8ff;
 }
-#appLoading {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
 
-.load {
-  position: absolute;
-  width: 130px;
-  background-color: #4b9ddb00;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.load .line:nth-last-child(1) {
-  animation: loadingAnimate 0.4s 0.07s cubic-bezier(0.6, -0.28, 0.735, 0.045)
-    infinite;
-  margin-left: 0.3rem;
-}
-
-.load .line:nth-last-child(2) {
-  animation: loadingAnimate 0.4s 0.13s cubic-bezier(0.6, -0.28, 0.735, 0.045)
-    infinite;
-}
-
-.load .line:nth-last-child(3) {
-  animation: loadingAnimate 0.4s 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045)
-    infinite;
-  margin-right: 0.3rem;
-}
-
-.line {
-  display: inline-block;
-  width: 15px;
-  height: 15px;
-  border-radius: 15px;
-}
-
-.load .line:nth-of-type(1) {
-  background-color: rgb(255, 191, 132);
-}
-
-.load .line:nth-of-type(2) {
-  background-color: rgb(248, 158, 73);
-}
-
-.load .line:nth-of-type(3) {
-  background-color: rgb(255, 136, 25);
-}
-
-@keyframes loadingAnimate {
-  0% {
-    transform: translate(0, 0);
-  }
-
-  50% {
-    transform: translate(0, 1.5rem);
-  }
-
-  100% {
-    transform: translate(0, 0);
-  }
-}
 </style>
