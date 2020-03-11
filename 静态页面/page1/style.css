@@ -123,4 +123,50 @@ html,body{
     border: 0px none;
 }
 
+#form-box{
+    display: flex;
+    background-color: rgba(242, 242, 242, 1);
+    /*width: 333px;*/
+    height: 239px;
+    border: none;
+    border-radius: 10px;
+}
 
+.input{
+    width: 280px;
+    height: 50px;
+    background-color: rgba(255, 255, 255, 1);
+    box-sizing: border-box;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 1);
+    border-right-color: rgb(255, 255, 255);
+    border-left-color: rgb(255, 255, 255);
+    color: #999999;
+    text-align: right;
+    line-height: 20px;
+    margin-left: 44px;
+}
+
+.input:nth-child(1){
+    margin-top: 34px;
+}
+
+.input:nth-child(2){
+    margin-top: 20px;
+    margin-bottom: 60px;
+}
+
+#query-button{
+    alignment: center;
+    width: 145px;
+    height: 39px;
+    background-color: rgba(163, 172, 255, 1);
+    border: none;
+    border-radius: 39px;
+    font-family: '微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑', serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 15px;
+    color: #FFFFFF;
+}
