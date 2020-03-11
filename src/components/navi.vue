@@ -35,27 +35,34 @@ body {
 #wrap1 {
   display: flex;
   flex-direction: column;
-  margin: 10px 0;
+  margin: 0;
   width: auto;
   /* width: 381px; */
 }
 
 #nav-bar {
-  height: 60px;
+  height: 46px;
 }
-
+#button{
+   padding-top: 3px;
+}
 #button img {
   width: 12px;
   height: 18px;
   float: left;
   margin: 10px;
 }
-
+#button:hover{
+   filter: brightness(1.4);
+   color:rgb(43, 58, 133);
+   cursor: pointer;
+   transition: 0.15s all;
+}
 #button div {
   float: left;
   height: 30px;
   padding: 0;
-  margin: 7px 24px 10px -5px;
+  margin: 7px 24px 3px -5px;
 }
 
 #line1 {

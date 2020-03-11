@@ -223,13 +223,16 @@ export default {
       };
     },
     initProv(query) {
+      this.$emit("toProv");
+      this.more = true;
       var dataTime = []
       this.myChart.dispose();
+      var Full = this.getFullName(query)
       $ajax
-        .get(`https://lab.isaaclin.cn/nCoV/api/area?
-          latest=0&province=${this.getFullName(query)}`)
+        .get(`https://lab.isaaclin.cn/nCoV/api/area?latest=0&province=${Full}`)
         .then(doc => {
-           console.log(this.getFullName(query))
+           console.log(`https://lab.isaaclin.cn/nCoV/api/area?
+          latest=0&province=${Full}`)
           doc.data.results.forEach(v => {
              
             let t = new Date(v.updateTime);
@@ -398,6 +401,7 @@ body {
   font-size: 15px;
   margin-top: 26px;
   text-align: center;
+  justify-content: space-around;
 }
 #button-wrapper div {
   padding: 6px 40px;
@@ -413,12 +417,18 @@ body {
   margin: 0 4px;
   padding: 4px 6px;
   border-radius: 4px;
+  width: 18%;
+  font-weight: bold;
 }
 .b-left {
-   width:50%;
+  width:50%;
   color: #ff756b;
   background-color: #f2f2f2;
   text-align: center;
+}
+#button-wrapper div:hover{
+   filter: brightness(1.1);
+   cursor: pointer;
 }
 .b-right {
   width:50%;

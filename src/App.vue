@@ -1,7 +1,7 @@
 <template>
   <div id="app" :style="{width:broad}">
      <navi :broad='broad'></navi>
-     <statis v-if="router==0" :broad='broad'></statis>
+     <statis v-if="router==0" :broad='broad' @toProv="toProv"></statis>
      <query v-if="router==2" :broad='broad'></query>
   </div>
 </template>
@@ -22,13 +22,17 @@ export default {
         router:0,
         broad:'681px',
      }
-  }
+  },
+  toProv(){
+
+  },
 };
 </script>
 
 <style>
 #app{
    width:auto;
+   height:710px;
    background-color: rgba(185, 185, 185, 0.118);
 }
 body {
