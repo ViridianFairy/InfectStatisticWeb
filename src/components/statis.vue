@@ -107,8 +107,8 @@
 </template>
 
 <script>
-// var baseURL = "http://106.15.200.151:3011"
-var baseURL = "http://127.0.0.1:3011";
+var baseURL = "http://106.15.200.151:3011"
+// var baseURL = "http://127.0.0.1:3011";
 import "echarts/map/js/china";
 import $ajax from "axios";
 var echarts = require("echarts/lib/echarts");
@@ -377,7 +377,7 @@ export default {
     return {
       myChart: null,
       dataList2: [],
-      query: "山东",
+      query: "",
       showDialog: false,
       typeText:{
          'curInj':'现存确诊',
