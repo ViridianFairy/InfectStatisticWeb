@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
-    <transition name="init">
-      <div id="data" v-show="router==0">
+    <!-- <transition name="init" mode="out-in"> -->
+      <div id="data" v-if="router==0">
         <div style="margin:12px 0 16px 20px;font-size: 12px;color:#aaa">截至 2020-03-11 20：20 全国数据统计</div>
         <div id="data-huge">
           <div class="data-big">
@@ -44,9 +44,9 @@
           <div class="b-right">累计确诊</div>
         </div>
       </div>
-    </transition>
-    <transition name="init">
-      <div id="data2" v-show="router==1">
+    <!-- </transition> -->
+    <!-- <transition name="init"> -->
+      <div id="data2" v-if="router==1">
         <div style="margin:12px 0 16px 20px;font-size: 12px;color:#aaa">截至 2020-02-23 20：20 全国数据统计</div>
         <div id="data-huge">
           <div class="data-big">
@@ -92,7 +92,7 @@
         </div>
         <div class="aaa">最新消息：山东任城监狱一日新增200例新冠..</div>
       </div>
-    </transition>
+    <!-- </transition> -->
     <div id="load-wrapper">
       <div class="load">
         <div class="line"></div>
@@ -604,13 +604,13 @@ a:hover {
   }
 }
 .init-enter-active {
-  transition: all 0.2s;
+  transition: all 5.2s;
 }
 .init-leave-active {
-  transition: all 0.2s;
+  transition: all 5.2s;
 }
 .init-enter,
-.init-leave {
+.init-leave-to {
   opacity: 0;
 }
 </style>
