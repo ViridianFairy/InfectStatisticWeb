@@ -40,8 +40,8 @@
         </div>
       </div>
       <div id="button-wrapper">
-        <div class="b-left">现存确诊</div>
-        <div class="b-right">累计确诊</div>
+        <div class="b-left" @click="changeButtonStyle1" :style="buttonStyle1[btnIndex1]">现存确诊</div>
+        <div class="b-right" @click="changeButtonStyle1" :style="buttonStyle1[(btnIndex1+1)%2]" >累计确诊</div>
       </div>
     </div>
     <!-- </transition> -->
@@ -371,7 +371,15 @@ export default {
         return val.name == name;
       });
       return obj.nameFull;
-    }
+    },
+
+    changeButtonStyle1:function () {
+
+      this.btnIndex1=(this.btnIndex1+1)%2;
+    },
+
+
+
   },
   data() {
     return {
@@ -437,7 +445,15 @@ export default {
         { name: "台湾", nameFull: "台湾", value: -1 },
         { name: "香港", nameFull: "香港", value: -1 },
         { name: "澳门", nameFull: "澳门", value: -1 }
-      ]
+      ],
+
+
+      buttonStyle1:[
+              "color:#f2f2f2;background-color:#ff756b",
+              "color:#ff756b;background-color:#f2f2f2",
+      ],
+
+      btnIndex1:0,
     };
   },
   mounted() {
@@ -448,7 +464,8 @@ export default {
       if (newVal == 0) this.initAll();
       //if(newVal==1) this.initProv()
     }
-  }
+  },
+
 };
 </script>
 
@@ -516,8 +533,8 @@ body {
 }
 .b-left {
   width: 50%;
-  color: #ff756b;
-  background-color: #f2f2f2;
+  /*color: #ff756b;*/
+  /*background-color: #f2f2f2;*/
   text-align: center;
 }
 #button-wrapper div:hover {
