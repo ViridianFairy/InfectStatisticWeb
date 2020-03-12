@@ -81,19 +81,23 @@
         </div>
       </div>
       <div id="button-wrapper2">
-        <div :class="btn2ChangeActive==0?'btnChosen':'btnUnchosen'" @click="changeButtonStyle2(0)">
+        <div :class="btn2ChangeActive==0?'btnChosen':'btnUnchosen'"
+        @click="btn2ChangeActive!=0 && changeButtonStyle2(0)">
           累计
           <br />确诊趋势
         </div>
-        <div :class="btn2ChangeActive==1?'btnChosen':'btnUnchosen'" @click="changeButtonStyle2(1)">
+        <div :class="btn2ChangeActive==1?'btnChosen':'btnUnchosen'" 
+        @click="btn2ChangeActive!=1 && changeButtonStyle2(1)">
           累计
           <br />疑似趋势
         </div>
-        <div :class="btn2ChangeActive==2?'btnChosen':'btnUnchosen'" @click="changeButtonStyle2(2)">
+        <div :class="btn2ChangeActive==2?'btnChosen':'btnUnchosen'" 
+        @click="btn2ChangeActive!=2 && changeButtonStyle2(2)">
           累计
           <br />治愈趋势
         </div>
-        <div :class="btn2ChangeActive==3?'btnChosen':'btnUnchosen'" @click="changeButtonStyle2(3)">
+        <div :class="btn2ChangeActive==3?'btnChosen':'btnUnchosen'" 
+        @click="btn2ChangeActive!=3 && changeButtonStyle2(3)">
           累计
           <br />死亡趋势
         </div>
@@ -484,7 +488,8 @@ export default {
       btn2ChangeActive: 0,
       diaKey1: 0,
       diaKey2: 0,
-      provQuery: ""
+      provQuery: "",
+      DEB:500,
     };
   },
   mounted() {
