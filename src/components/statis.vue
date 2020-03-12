@@ -119,7 +119,7 @@
 </template>
 
 <script>
-var baseURL = "http://106.15.200.151:3011";
+var baseURL = "https://ncov.funx.pro";
 // import $ajax from "axios";
 var $ajax = require('axios')
 // var baseURL = "http://127.0.0.1:3011";
