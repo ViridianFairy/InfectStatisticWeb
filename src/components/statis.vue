@@ -120,9 +120,10 @@
 
 <script>
 var baseURL = "http://106.15.200.151:3011";
+// import $ajax from "axios";
+var $ajax = require('axios')
 // var baseURL = "http://127.0.0.1:3011";
 import "echarts/map/js/china";
-import $ajax from "axios";
 var echarts = require("echarts/lib/echarts");
 require("echarts/lib/chart/line");
 require("echarts/lib/chart/map");
