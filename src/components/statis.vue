@@ -40,8 +40,16 @@
         </div>
       </div>
       <div id="button-wrapper">
-        <div class="b-left" @click="changeButtonStyle1" :style="buttonStyle1[btnIndex1]">现存确诊</div>
-        <div class="b-right" @click="changeButtonStyle1" :style="buttonStyle1[(btnIndex1+1)%2]" >累计确诊</div>
+        <div
+          class="b-left"
+          @click="btnIndex1==1 && changeButtonStyle1()"
+          :style="buttonStyle1[btnIndex1]"
+        >累计确诊</div>
+        <div
+          class="b-right"
+          @click="btnIndex1==0 && changeButtonStyle1()"
+          :style="buttonStyle1[(btnIndex1+1)%2]"
+        >现存确诊</div>
       </div>
     </div>
     <!-- </transition> -->
@@ -74,12 +82,12 @@
       </div>
       <div id="button-wrapper2">
         <div :class="btn2ChangeActive==0?'btnChosen':'btnUnchosen'" @click="changeButtonStyle2(0)">
-          现存
+          累计
           <br />确诊趋势
         </div>
         <div :class="btn2ChangeActive==1?'btnChosen':'btnUnchosen'" @click="changeButtonStyle2(1)">
           累计
-          <br />确诊趋势
+          <br />疑似趋势
         </div>
         <div :class="btn2ChangeActive==2?'btnChosen':'btnUnchosen'" @click="changeButtonStyle2(2)">
           累计
@@ -90,7 +98,7 @@
           <br />死亡趋势
         </div>
       </div>
-      <div :class="aaa">最新消息：山东任城监狱一日新增200例新冠..</div>
+      <div class="aaa">最新消息：山东任城监狱一日新增200例新冠..</div>
     </div>
     <!-- </transition> -->
     <div id="load-wrapper">
@@ -101,13 +109,13 @@
       </div>
     </div>
     <transition name="init">
-      <div id="main" :style="{width:broad}" v-show="showDialog"></div>
+      <div id="main" :style="{width:broad}" v-show="showDialog" :key="diaKey1"></div>
     </transition>
   </div>
 </template>
 
 <script>
-var baseURL = "http://106.15.200.151:3011"
+var baseURL = "http://106.15.200.151:3011";
 // var baseURL = "http://127.0.0.1:3011";
 import "echarts/map/js/china";
 import $ajax from "axios";
@@ -124,23 +132,23 @@ export default {
     router: Number
   },
   methods: {
-    initAll() {
+    initAll(info) {
+      if (!info) info = "confirmedCount";
       this.showDialog = false;
       if (this.myChart) this.myChart.dispose();
       //if (this.dataList[0].value == -1) {
       $ajax.get(baseURL + "/api/ncov/getAll").then(doc => {
         var arr = JSON.parse(doc.data.data);
-        console.log(arr);
+        //console.log(arr);
         arr.data.forEach(v => {
           this.dataList.forEach((l, i) => {
             if (l.name == v.provinceShortName) {
-              this.$set(this.dataList[i], "value", v.confirmedCount);
+              this.$set(this.dataList[i], "value", v[info]);
             }
           });
         });
         if (this.allNum.inj[0] == 0) {
           Object.keys(this.allNum).forEach(name => {
-            console.log(name);
             var Time = 30,
               t = 0;
             var piece = (arr.statis[name][0] / Time).toFixed(2);
@@ -184,6 +192,7 @@ export default {
               dom.onclick = function() {
                 self.router = 1;
                 self.showDialog = false;
+                self.provQuery = dom.name;
                 self.initProv(dom.name);
               };
             });
@@ -249,7 +258,7 @@ export default {
         series: [
           {
             hoverAnimation: true,
-            name: "确诊",
+            name: info == "confirmedCount" ? "确诊" : "现存确诊",
             type: "map",
             geoIndex: 0,
             data: this.dataList
@@ -258,21 +267,27 @@ export default {
       };
     },
     initProv(query, info) {
+      
       this.provNum = {
         curInj: [0, 0],
         inj: [0, 0],
         cur: [0, 0],
         dead: [0, 0]
       };
-      this.dataList2 = []
-      if (!info) info = "inj";
+      this.dataList2 = [];
+      if (!info){
+         this.btn2ChangeActive = 0;
+         info = "inj"
+      }
       this.$emit("toProv", { name: query });
       var dataTime = [];
-      this.myChart.clear()
+      this.myChart.clear();
       this.myChart.dispose();
+      //console.log(query)
       $ajax.post(baseURL + "/api/ncov/getProv", { name: query }).then(doc => {
+        //console.log(query);
         var arr = JSON.parse(doc.data.data);
-        console.log(arr);
+
         arr.forEach(v => {
           let t = new Date(v.updateTime);
           let time = `${t.getMonth() + 1}月${t.getDate()}日`;
@@ -281,71 +296,72 @@ export default {
           this.dataList2.unshift(v[info]);
         });
         this.myChart = echarts.init(document.getElementById("main"));
-        this.myChart.clear()
-        this.myChart.setOption({
-          xAxis: {
-            type: "category",
-            data: dataTime,
-            name: "时间"
-          },
-          yAxis: {
-            type: "value",
-            name: query + this.typeText[info],
-          },
-          series: [
-            {
-              data: this.dataList2,
-              type: "line",
-              smooth: true,
-              name: "确诊人数",
-              lineStyle: {
-                normal: {
-                  color: "#FC744F",
-                  width: 4
+        this.myChart.clear();
+        this.myChart.setOption(
+          {
+            xAxis: {
+              type: "category",
+              data: dataTime,
+              name: "时间"
+            },
+            yAxis: {
+              type: "value",
+              name: query + this.typeText[info]
+            },
+            series: [
+              {
+                data: this.dataList2,
+                type: "line",
+                smooth: true,
+                name: this.typeText[info]+'人数',
+                lineStyle: {
+                  normal: {
+                    color: "#FC744F",
+                    width: 4
+                  }
                 }
               }
-            }
-          ],
-          tooltip: {
-            //鼠标悬停提示内容
-            trigger: "axis", // 触发类型，默认数据触发，可选为：'axis' item
-            axisPointer: {
-              // 坐标轴指示器，坐标轴触发有效
-              type: "line", // 默认为直线，可选为：'line' | 'shadow'
-              label: "cross",
-              show: true
-            },
-            formatter: function(a) {
-              //console.log(a)
-              let list = [];
-              let listItem = "";
-              for (var i = 0; i < a.length; i++) {
-                list.push(
-                  '<i style="display: inline-block;width: 10px;height: 10px;background: ' +
-                    a[i].color +
-                    ';margin-right: 5px;border-radius: 50%;}"></i><span style="width:auto; display:inline-block;">' +
-                    "截至" +
-                    a[i].name +
-                    "，<br>" +
-                    "累计" +
-                    a[i].seriesName +
-                    "：" +
-                    a[i].value +
-                    "&nbsp"
-                );
+            ],
+            tooltip: {
+              //鼠标悬停提示内容
+              trigger: "axis", // 触发类型，默认数据触发，可选为：'axis' item
+              axisPointer: {
+                // 坐标轴指示器，坐标轴触发有效
+                type: "line", // 默认为直线，可选为：'line' | 'shadow'
+                label: "cross",
+                show: true
+              },
+              formatter: function(a) {
+                let list = [];
+                let listItem = "";
+                for (var i = 0; i < a.length; i++) {
+                  list.push(
+                    '<i style="display: inline-block;width: 10px;height: 10px;background: ' +
+                      a[i].color +
+                      ';margin-right: 5px;border-radius: 50%;}"></i><span style="width:auto; display:inline-block;">' +
+                      "截至" +
+                      a[i].name +
+                      "，<br>"
+                      +
+                      a[i].seriesName +
+                      "：" +
+                      a[i].value +
+                      "&nbsp"
+                  );
+                }
+                listItem = list.join("<br>");
+                return '<div class="showBox">' + listItem + "</div>";
               }
-              listItem = list.join("<br>");
-              return '<div class="showBox">' + listItem + "</div>";
             }
-          }
-        },true);
+          },
+          true
+        );
         this.showDialog = true;
-
+         //console.log(info)
         Object.keys(this.provNum).forEach(name => {
           var today = arr[0][name];
           var yesto = arr[1][name];
-          arr[name] = [today, today-yesto];
-          console.log(name);
+          arr[name] = [today, today - yesto];
           var Time = 30,
             t = 0;
           var piece = (arr[name][0] / Time).toFixed(2);
@@ -373,14 +389,22 @@ export default {
       return obj.nameFull;
     },
 
-    changeButtonStyle1:function () {
-      this.btnIndex1=(this.btnIndex1+1)%2;
+    changeButtonStyle1: function() {
+      this.btnIndex1 = (this.btnIndex1 + 1) % 2;
+      this.diaKey1++;
+      if (this.btnIndex1 == 0) this.initAll("confirmedCount");
+      if (this.btnIndex1 == 1) this.initAll("currentConfirmedCount");
     },
-    changeButtonStyle2:function (num) {
-      this.btn2ChangeActive=num;
+    changeButtonStyle2: function(num) {
+      this.btn2ChangeActive = num;
+      this.diaKey1++;
+      if (this.btn2ChangeActive == 0) this.initProv(this.provQuery, "inj");
+      if (this.btn2ChangeActive == 1) this.initProv(this.provQuery, "sus");
+      if (this.btn2ChangeActive == 2) this.initProv(this.provQuery, "cur");
+      if (this.btn2ChangeActive == 3) this.initProv(this.provQuery, "dead");
+      //if(this.btnIndex2==1) this.initProv(this.provQuery, 'conInj')
       // alert(num);
     }
-
   },
   data() {
     return {
@@ -388,13 +412,13 @@ export default {
       dataList2: [],
       query: "",
       showDialog: false,
-      typeText:{
-         'curInj':'现存确诊',
-         'inj':'累计确诊',
-         'cur':'累计治愈',
-         'dead':'累计死亡',
+      typeText: {
+        sus: "累计疑似",
+        inj: "累计确诊",
+        cur: "累计治愈",
+        dead: "累计死亡"
       },
-      typeIndex:0,
+      typeIndex: 0,
       allNum: {
         curInj: [0, 0],
         inj: [0, 0],
@@ -404,7 +428,7 @@ export default {
         bad: [0, 0]
       },
       provNum: {
-        curInj: [0, 0],
+        sus: [0, 0],
         inj: [0, 0],
         //   sus: [0, 0],
         cur: [0, 0],
@@ -448,20 +472,19 @@ export default {
         { name: "澳门", nameFull: "澳门", value: -1 }
       ],
 
-
-      buttonStyle1:[
-              "color:#f2f2f2;background-color:#ff756b",
-              "color:#ff756b;background-color:#f2f2f2",
+      buttonStyle1: [
+        "color:#f2f2f2;background-color:#ff756b",
+        "color:#ff756b;background-color:#f2f2f2"
       ],
 
-      buttonStyle2:[
-        "color:rgb(219, 114, 106);",
-        "color:#db726a;",
-      ],
+      buttonStyle2: ["color:rgb(219, 114, 106);", "color:#db726a;"],
 
-      btnIndex1:0,
-      btnIndex2:0,
-      btn2ChangeActive:0,
+      btnIndex1: 0,
+      btnIndex2: 0,
+      btn2ChangeActive: 0,
+      diaKey1: 0,
+      diaKey2: 0,
+      provQuery: ""
     };
   },
   mounted() {
@@ -469,11 +492,13 @@ export default {
   },
   watch: {
     router(newVal) {
-      if (newVal == 0) this.initAll();
+      if (newVal == 0){
+         this.btnIndex1=0
+         this.initAll();
+      }
       //if(newVal==1) this.initProv()
     }
-  },
-
+  }
 };
 </script>
 
@@ -517,6 +542,7 @@ body {
 }
 #button-wrapper div {
   padding: 6px 40px;
+  /* transition: 0.2s all; */
 }
 .aaa {
   color: #aaa;
@@ -537,8 +563,11 @@ body {
   cursor: pointer;
   background-color: #db726a;
 }
+#button-wrapper2 div:active {
+  background-color: #a95751 !important;
+}
 
-.btnChosen{
+.btnChosen {
   line-height: 24px;
   color: white;
   background-color: #db726a;
@@ -550,7 +579,7 @@ body {
   transition: 0.2s all;
 }
 
-.btnUnchosen{
+.btnUnchosen {
   line-height: 24px;
   color: white;
   background-color: #ff756b;
@@ -561,7 +590,6 @@ body {
   font-weight: bold;
   transition: 0.2s all;
 }
-
 
 .b-left {
   width: 50%;
@@ -702,10 +730,10 @@ a:hover {
   }
 }
 .init-enter-active {
-  transition: all 0.5s;
+  transition: all 0.2s;
 }
 .init-leave-active {
-  transition: all 0.5s;
+  transition: all 0.2s;
 }
 .init-enter,
 .init-leave-to {
