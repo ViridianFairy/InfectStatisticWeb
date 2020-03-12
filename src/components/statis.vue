@@ -73,24 +73,24 @@
         </div>
       </div>
       <div id="button-wrapper2">
-        <div :style="{'background-color':typeIndex==0?'#DB726A':''}">
+        <div :class="btn2ChangeActive==0?'btnChosen':'btnUnchosen'" @click="changeButtonStyle2(0)">
           现存
           <br />确诊趋势
         </div>
-        <div class>
+        <div :class="btn2ChangeActive==1?'btnChosen':'btnUnchosen'" @click="changeButtonStyle2(1)">
           累计
           <br />确诊趋势
         </div>
-        <div class>
+        <div :class="btn2ChangeActive==2?'btnChosen':'btnUnchosen'" @click="changeButtonStyle2(2)">
           累计
           <br />治愈趋势
         </div>
-        <div class>
+        <div :class="btn2ChangeActive==3?'btnChosen':'btnUnchosen'" @click="changeButtonStyle2(3)">
           累计
           <br />死亡趋势
         </div>
       </div>
-      <div class="aaa">最新消息：山东任城监狱一日新增200例新冠..</div>
+      <div :class="aaa">最新消息：山东任城监狱一日新增200例新冠..</div>
     </div>
     <!-- </transition> -->
     <div id="load-wrapper">
@@ -374,11 +374,12 @@ export default {
     },
 
     changeButtonStyle1:function () {
-
       this.btnIndex1=(this.btnIndex1+1)%2;
     },
-
-
+    changeButtonStyle2:function (num) {
+      this.btn2ChangeActive=num;
+      // alert(num);
+    }
 
   },
   data() {
@@ -453,7 +454,14 @@ export default {
               "color:#ff756b;background-color:#f2f2f2",
       ],
 
+      buttonStyle2:[
+        "color:rgb(219, 114, 106);",
+        "color:#db726a;",
+      ],
+
       btnIndex1:0,
+      btnIndex2:0,
+      btn2ChangeActive:0,
     };
   },
   mounted() {
@@ -495,17 +503,15 @@ body {
 #button-wrapper {
   display: flex;
   width: 80%;
-  margin: 0 auto;
   font-weight: bold;
   font-size: 16px;
-  margin-top: 16px;
+  margin: 16px auto 0;
 }
 #button-wrapper2 {
   display: flex;
   width: 88%;
-  margin: 0 auto;
   font-size: 15px;
-  margin-top: 26px;
+  margin: 26px auto 0;
   text-align: center;
   justify-content: space-around;
 }
@@ -516,7 +522,35 @@ body {
   color: #aaa;
   margin: 14px 0 0 25px;
 }
-#button-wrapper2 div {
+/*#button-wrapper2 div {*/
+/*  line-height: 24px;*/
+/*  color: white;*/
+/*  background-color: #ff756b;*/
+/*  margin: 0 4px;*/
+/*  padding: 4px 6px;*/
+/*  border-radius: 4px;*/
+/*  width: 18%;*/
+/*  font-weight: bold;*/
+/*  transition: 0.2s all;*/
+/*}*/
+#button-wrapper2 div:hover {
+  cursor: pointer;
+  background-color: #db726a;
+}
+
+.btnChosen{
+  line-height: 24px;
+  color: white;
+  background-color: #db726a;
+  margin: 0 4px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  width: 18%;
+  font-weight: bold;
+  transition: 0.2s all;
+}
+
+.btnUnchosen{
   line-height: 24px;
   color: white;
   background-color: #ff756b;
@@ -527,10 +561,8 @@ body {
   font-weight: bold;
   transition: 0.2s all;
 }
-#button-wrapper2 div:hover {
-  cursor: pointer;
-  background-color: #db726a;
-}
+
+
 .b-left {
   width: 50%;
   /*color: #ff756b;*/
