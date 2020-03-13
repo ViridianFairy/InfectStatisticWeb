@@ -1,0 +1,15 @@
+import csv
+import json
+
+file_path = "DXYArea.csv"
+csv_file = open(file_path, 'r')
+json_file = open('file.json', 'w')
+
+fieldnames = ("provinceName", "currentConfirmedCount", "confirmedCount", "suspectedCount",
+              "curedCount", "deadCount", "date")
+
+reader = csv.DictReader(csv_file, fieldnames)
+
+out = json.dumps([row for row in reader])
+
+json_file.write(out)

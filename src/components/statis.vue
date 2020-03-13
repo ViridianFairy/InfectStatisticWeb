@@ -90,7 +90,7 @@
           <br />死亡趋势
         </div>
       </div>
-      <div :class="aaa">最新消息：山东任城监狱一日新增200例新冠..</div>
+      <div class="aaa">最新消息：山东任城监狱一日新增200例新冠..</div>
     </div>
     <!-- </transition> -->
     <div id="load-wrapper">
