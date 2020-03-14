@@ -169,47 +169,46 @@ export default {
          };
       },
       allDateChangeOn(val) {
-			this.Thro(on)
-			console.log(val)
-			this.initAll("confirmedCount",val);
+			//this.Thro(on)
+			if (this.btnIndex1 == 0) this.initAll("confirmedCount",val);
+         if (this.btnIndex1 == 1) this.initAll("currentConfirmedCount",val);
          function on(){
 				
 			}
       },
       updateDataList(info, date) {
-			var url = !date?"/api/ncov/getAll":'/api/ncov/getAllTime'
-			var param = !date?{}:{time:date}
-         return new Promise(resolve => {
-            $ajax.post(baseURL + url, param).then(doc => {
-               var arr = JSON.parse(doc.data.data);
+			var baseURL = "https://ncov.funx.pro" //后端base地址
+			var url = !date?"/api/ncov/getAll":'/api/ncov/getAllTime' //根据是否携带时间参数，调用不同的api
+			var param = !date?{}:{time:date} //根据是否有时间参数，判断是否将其携带
+         return new Promise(resolve => { //异步Promise，返回一个拿到数据后的状态
+            $ajax.post(baseURL + url, param).then(doc => { //Ajax
+               var arr = JSON.parse(doc.data.data); //string至object
                arr.data.forEach(v => {
-                  this.dataList.forEach((l, i) => {
-                     if (l.name == v.provinceShortName) {
-                        this.$set(this.dataList[i], "value", v[info]);
-                     }
+                  this.dataList.forEach((l, i) => { //遍历拿到的省份数据，将其添加至响应式数据中
+                     if (l.name == v.provinceShortName) 
+                        this.$set(this.dataList[i], "value", v[info]); //改变数组的值
                   });
                });
-               resolve(arr);
+               resolve(arr); //返回状态，以便下一步进行
             });
          });
       },
       initAll(info, date) {
-         this.showDialog = false;
-         if (this.myChart) this.myChart.dispose();
+         this.showDialog = false;  //显示loading和过度用的，没有使用echarts自带loading
+         if (this.myChart) this.myChart.dispose();   //因为框架内遇到了一些无法解决的bug，只能在重载时销毁ec实例
          this.updateDataList(info, date).then(arr => {
-            if (this.allNum.inj[0] == 0 || date) {
-               Object.keys(this.allNum).forEach(name => {
+            if (this.allNum.inj[0] == 0 || date) { // 判断 数据源未提供的标识 显示为'--'
+               Object.keys(this.allNum).forEach(name => { // 六项基本疫情信息遍历
 						if(!arr.statis[name] || (date&&name=='sus')){
-							this.allNum[name]=[-9999,-9999]
+							this.allNum[name]=[-9999,-9999] // 数据源未提供的标识 显示为'--'
 							return
 						} 
-                  var Time = 40,
-							t = 0;
-						var base = this.allNum[name][0]
-						var base2 = this.allNum[name][1]
-                  var piece = ((arr.statis[name][0]-this.allNum[name][0]) / Time).toFixed(2);
-						var piece2 = ((arr.statis[name][1]-this.allNum[name][1]) / Time).toFixed(2);
-						console.log(`目标${arr.statis[name][0]},当前${this.allNum[name][0]}`)
+                  var Time = 30, t = 0;
+						var base = this.allNum[name][0] // 加了一点很无聊的数字动画....
+						var base2 = this.allNum[name][1]  // 0是总项、1是变化项
+                  var piece = ((arr.statis[name][0]-this.allNum[name][0]) / Time).toFixed(2); // 单次变化值
+						var piece2 = ((arr.statis[name][1]-this.allNum[name][1]) / Time).toFixed(2);// 单次变化值
+						//console.log(`目标${arr.statis[name][0]},当前${this.allNum[name][0]}`)
                   var timer = setInterval(() => {
                      this.$set(this.allNum[name], 0, base+ parseInt(piece * ++t));
                      this.$set(this.allNum[name], 1, base2+parseInt(piece2 * ++t));
@@ -218,7 +217,7 @@ export default {
                         this.allNum[name][1] = arr.statis[name][1];
                         clearInterval(timer);
                      }
-						}, 16.6*2);
+						}, 16.6);
                });
             }
             this.myChart = echarts.init(document.getElementById("main"));
