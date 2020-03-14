@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const $ajax = require('axios')
+// const $ajax = require('axios')
 mongoose.connect("mongodb://myblog:731016@106.15.200.151:27017/MyBlog", {
    useNewUrlParser: true,
    useUnifiedTopology: true

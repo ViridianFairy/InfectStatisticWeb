@@ -2,7 +2,7 @@
    <div class="hello">
       <!-- <transition name="init" mode="out-in"> -->
       <div id="data" v-if="router==0">
-         <div style="margin:12px 0 16px 20px;font-size: 14px;color:#aaa;display:flex;">
+         <div style="margin:12px 0 16px 20px;font-size: 14px;color:#bbb;display:flex;">
             截至：
             <bar @allDateChange="allDateChangeOn"></bar>
          </div>
@@ -15,13 +15,13 @@
                   <div>现存确诊</div>
                </div>
                <div class="data-small">
-                  <div>较昨日{{allNum.sus[1]>0?'+':''}}{{allNum.sus[1]}}</div>
-                  <div style="color:#B8741A">{{allNum.sus[0]}}</div>
+                  <div>较昨日{{allNum.sus[1]>0?'+':''}}{{allNum.sus[1]==-9999?'--':allNum.sus[1]}}</div>
+                  <div style="color:#B8741A">{{allNum.sus[0]==-9999?'--':allNum.sus[0]}}</div>
                   <div>现存疑似</div>
                </div>
                <div class="data-small">
-                  <div>较昨日{{allNum.bad[1]>0?'+':''}}{{allNum.bad[1]}}</div>
-                  <div style="color:#7B4D12">{{allNum.bad[0]}}</div>
+                  <div>较昨日{{allNum.bad[1]>0?'+':''}}{{allNum.bad[1]==-9999?'--':allNum.bad[1]}}</div>
+                  <div style="color:#7B4D12">{{allNum.bad[0]==-9999?'--':allNum.bad[0]}}</div>
                   <div>现存重症</div>
                </div>
             </div>
@@ -170,13 +170,17 @@ export default {
       },
       allDateChangeOn(val) {
 			this.Thro(on)
+			console.log(val)
+			this.initAll("confirmedCount",val);
          function on(){
-				console.log(val)
+				
 			}
       },
       updateDataList(info, date) {
+			var url = !date?"/api/ncov/getAll":'/api/ncov/getAllTime'
+			var param = !date?{}:{time:date}
          return new Promise(resolve => {
-            $ajax.get(baseURL + "/api/ncov/getAll").then(doc => {
+            $ajax.post(baseURL + url, param).then(doc => {
                var arr = JSON.parse(doc.data.data);
                arr.data.forEach(v => {
                   this.dataList.forEach((l, i) => {
@@ -192,22 +196,29 @@ export default {
       initAll(info, date) {
          this.showDialog = false;
          if (this.myChart) this.myChart.dispose();
-         this.updateDataList(info, "").then(arr => {
-            if (this.allNum.inj[0] == 0) {
+         this.updateDataList(info, date).then(arr => {
+            if (this.allNum.inj[0] == 0 || date) {
                Object.keys(this.allNum).forEach(name => {
-                  var Time = 30,
-                     t = 0;
-                  var piece = (arr.statis[name][0] / Time).toFixed(2);
-                  var piece2 = (arr.statis[name][1] / Time).toFixed(2);
+						if(!arr.statis[name] || (date&&name=='sus')){
+							this.allNum[name]=[-9999,-9999]
+							return
+						} 
+                  var Time = 40,
+							t = 0;
+						var base = this.allNum[name][0]
+						var base2 = this.allNum[name][1]
+                  var piece = ((arr.statis[name][0]-this.allNum[name][0]) / Time).toFixed(2);
+						var piece2 = ((arr.statis[name][1]-this.allNum[name][1]) / Time).toFixed(2);
+						console.log(`目标${arr.statis[name][0]},当前${this.allNum[name][0]}`)
                   var timer = setInterval(() => {
-                     this.$set(this.allNum[name], 0, parseInt(piece * ++t));
-                     this.$set(this.allNum[name], 1, parseInt(piece2 * ++t));
+                     this.$set(this.allNum[name], 0, base+ parseInt(piece * ++t));
+                     this.$set(this.allNum[name], 1, base2+parseInt(piece2 * ++t));
                      if (t == Time) {
                         this.allNum[name][0] = arr.statis[name][0];
                         this.allNum[name][1] = arr.statis[name][1];
                         clearInterval(timer);
                      }
-                  }, 16.6);
+						}, 16.6*2);
                });
             }
             this.myChart = echarts.init(document.getElementById("main"));
@@ -541,7 +552,8 @@ export default {
    watch: {
       router(newVal) {
          if (newVal == 0) {
-            this.btnIndex1 = 0;
+				this.btnIndex1 = 0;
+				this.allNum.inj[0] =0
             this.initAll("confirmedCount");
          }
          //if(newVal==1) this.initProv()

@@ -5,7 +5,8 @@
          <input
             id="input1"
             type="range"
-            @input="barChange"
+            @input="barChange($event)"
+				@mouseup="barChange($event,true)"
             min="1"
             max="100"
             defaultValue="0"
@@ -52,10 +53,10 @@ export default {
       };
    },
 	created(){
-		var MONTH = [-1,31,29,8];
+		var MONTH = [-1,31,29,10];
 		var m,d,i;
-		for(m=1;m<=3;m++){
-			for(m==1?d=23:d=1;d<=MONTH[m];d++){
+		for(m=2;m<=3;m++){
+			for(m==2?d=14:d=1;d<=MONTH[m];d++){
 				var strd = d
 				if(strd<=9) strd = '0' + strd
 				this.calen.push(`2020年0${m}月${strd}日`)
@@ -67,10 +68,10 @@ export default {
    },
    components: {},
    methods: {
-		getText(val){
+		getText(val, up){
 			var pos = parseInt((this.calen.length-1)*(0.01*val))
 			val = this.calen[pos]
-			this.$emit('allDateChange',val.replace(/年|月/g,'-').replace('日',''))
+			if(up) this.$emit('allDateChange',val.replace(/年|月/g,'-').replace('日',''))
 			return val
 		},
       // 初始化滑动条进度
@@ -78,7 +79,7 @@ export default {
          this.barValue = this.value;
          this.textValue = this.getText(this.value);
          this.barInput = document.querySelector("#input1");
-         console.log(this.barInput.Element);
+         //console.log(this.barInput.Element);
          this.max = this.barInput.max;
          this.setTrack(this.value, this.max);
       },
@@ -88,16 +89,16 @@ export default {
          let value = e.target.value,
             // input的最大值
             max = e.target.max;
-         this.textValue = this.getText(value);
+         this.textValue = this.getText(value, true);
          this.setTrack(value, max);
       },
       // 滑动条事件
-      barChange(e) {
+      barChange(e, up) {
          //   console.log(e);
          let value = e.target.value,
             // input的最大值
             max = e.target.max;
-         this.textValue = this.getText(value);
+         this.textValue = this.getText(value, up);
          this.setTrack(value, max);
       },
       // 输入框input事件
@@ -137,11 +138,10 @@ export default {
    width: 200px;
    padding-top: 6px;
 }
-/* 滑动条样式 */
 input[type="range"] {
    -webkit-appearance: none;
    width: 200px;
-   border-radius: 10px; /*这个属性设置使填充进度条时的图形为圆角*/
+   border-radius: 10px;
 }
 
 input[type="range"]::-webkit-slider-thumb {
@@ -156,18 +156,16 @@ input[type="range"]::-webkit-slider-runnable-track {
 input[type="range"]:focus {
    outline: none;
 }
-/* 设置滑块样式 */
 input[type="range"]::-webkit-slider-thumb {
    -webkit-appearance: none;
    position: relative;
    z-index: 10;
    height: 14px;
    width: 14px;
-   margin-top: -3.5px; /*使滑块超出轨道部分的偏移量相等*/
+   margin-top: -3.5px; 
    background: #c9d5f5;
 	transition: 0.2s all;
-   border-radius: 50%; /*外观设置为圆形*/
-   /* border: solid 0.125em rgba(205, 224, 230, 0.5); */
+   border-radius: 50%; 
    box-shadow: 0 0.125em 0.125em #a9a9a9;
 }
 input[type="range"]::-webkit-slider-thumb:hover {
@@ -201,7 +199,7 @@ input[type="range"]::-webkit-slider-thumb:active {
    width: 130px;
    height: 15px;
    background: rgba(150, 145, 145, 0);
-   color: #aaa;
+   color: #ddd;
    position: absolute;
    top: 1px;
    right: 0;
