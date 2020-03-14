@@ -50,7 +50,7 @@ export default {
 #app {
   width: auto;
   height: 710px;
-  background-color: rgba(185, 185, 185, 0.118);
+  background-color: rgba(185, 185, 185, 0);
 }
 body {
   margin: 0;

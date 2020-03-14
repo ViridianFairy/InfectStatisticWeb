@@ -10,7 +10,8 @@
     <div id="line1"></div>
     <div id="title">
       <div></div>
-      <div>{{banner}}</div>
+      <div>{{banner}}<span style="color:#ddd;font-size:12px;padding-left:5px;font-weight:normal">
+			--表示数据源未提供</span></div>
       <div id="line2"></div>
     </div>
   </div>
