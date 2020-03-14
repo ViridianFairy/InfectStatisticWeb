@@ -79,7 +79,25 @@ async function run(){
 	}
 }
 run()
-
+/*
+app.post("/api/ncov/getAll", (req, res) => {
+	Ncov.findOne({name: "全国"}, (err_u, doc) => {
+		JSON.parse(doc.data);
+		res.send(doc);
+	});
+});
+app.post("/api/ncov/getAllTime", (req, res) => {
+	Ncov.findOne({name: req.body.time}, (err_u, doc) => {
+		JSON.parse(doc.data);
+		res.send(doc);
+	});
+});
+app.post("/api/ncov/getProv", (req, res) => {
+	Ncov.findOne({name: req.body.name}, (err_u, data) => {
+		res.send(data);
+	});
+});
+*/
 /*var t = ''
 
 
